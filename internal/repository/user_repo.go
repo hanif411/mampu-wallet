@@ -39,7 +39,6 @@ func (r *userRepo) CreateWithWallet(user *model.User, hashedPin string, secret s
 
 		finalSignature := crypto.GenerateSignature(wallet.ID, wallet.Balance, secret)
 
-		// 5. Update signature-nya sebelum transaksi selesai
 		return tx.Model(&wallet).Update("signature", finalSignature).Error
 	})
 }

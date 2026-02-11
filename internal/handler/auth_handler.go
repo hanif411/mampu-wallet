@@ -19,7 +19,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	var req struct {
 		Username string `json:"username" binding:"required"`
 		Password string `json:"password" binding:"required"`
-		Pin      string `json:"pin" binding:"required,len=6"`
+		Pin      string `json:"pin" binding:"required,numeric,len=6"`
 	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {

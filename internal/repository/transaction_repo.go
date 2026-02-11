@@ -20,7 +20,6 @@ func NewTransactionRepository(db *gorm.DB) TransactionRepository {
 }
 
 func (r *transactionRepo) Create(tx *gorm.DB, transaction *model.Transaction) error {
-	// Menggunakan tx dari parameter agar bisa tergabung dalam satu rangkaian transaksi database
 	return tx.Create(transaction).Error
 }
 

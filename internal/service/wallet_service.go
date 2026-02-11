@@ -63,7 +63,10 @@ func (s *walletService) TopUp(userID uint, amount int64) error {
 
 func (s *walletService) Withdraw(userID uint, amount int64, pin string) error {
 	return s.db.Transaction(func(tx *gorm.DB) error {
-		wallet, _ := s.walletRepo.GetByUserID(userID)
+		wallet, err := s.walletRepo.GetByUserID(userID)
+		if err != nil {
+			return err
+		}
 
 		if !crypto.CheckPasswordHash(pin, wallet.Pin) {
 			return errors.New("PIN salah")
