@@ -39,9 +39,8 @@ func (s *authService) Register(username, password, pin string) error {
 	}
 
 	secret := os.Getenv("SECRET_KEY")
-	initialSignature := crypto.GenerateSignature(1, 0, secret)
 
-	return s.userRepo.CreateWithWallet(user, hashedPin, initialSignature)
+	return s.userRepo.CreateWithWallet(user, hashedPin, secret)
 }
 
 func (s *authService) Login(username, password string) (string, error) {

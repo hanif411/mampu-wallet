@@ -2,12 +2,13 @@ package repository
 
 import (
 	"go-finance-wallet/internal/model"
+	"go-finance-wallet/pkg/crypto"
 
 	"gorm.io/gorm"
 )
 
 type UserRepository interface {
-	CreateWithWallet(user *model.User, hashedPin string, initialSignature string) error
+	CreateWithWallet(user *model.User, hashedPin string, secret string) error
 	GetByUsername(username string) (*model.User, error)
 }
 
@@ -19,7 +20,7 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	return &userRepo{db}
 }
 
-func (r *userRepo) CreateWithWallet(user *model.User, hashedPin string, initialSignature string) error {
+func (r *userRepo) CreateWithWallet(user *model.User, hashedPin string, secret string) error {
 	return r.db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Create(user).Error; err != nil {
 			return err
@@ -29,14 +30,17 @@ func (r *userRepo) CreateWithWallet(user *model.User, hashedPin string, initialS
 			UserID:    user.ID,
 			Balance:   0,
 			Pin:       hashedPin,
-			Signature: "pending",
+			Signature: "INITIALIZING",
 		}
 
 		if err := tx.Create(&wallet).Error; err != nil {
 			return err
 		}
 
-		return nil
+		finalSignature := crypto.GenerateSignature(wallet.ID, wallet.Balance, secret)
+
+		// 5. Update signature-nya sebelum transaksi selesai
+		return tx.Model(&wallet).Update("signature", finalSignature).Error
 	})
 }
 
