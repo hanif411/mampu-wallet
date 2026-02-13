@@ -42,5 +42,5 @@ func main() {
 	}
 
 	log.Println("Server running on :5000")
-	r.Run("0.0.0.0:5000")
+	r.Run(":5000")
 }
