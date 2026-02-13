@@ -1,0 +1,8 @@
+.git
+.github
+_work
+actions-runner
+*.zip
+.env
+bin
+obj
