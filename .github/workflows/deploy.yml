@@ -1,0 +1,18 @@
+name: Deploy ke Laptop Sendiri
+
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  deploy-job:
+    runs-on: self-hosted 
+
+    steps:
+      - name: Ambil kodingan terbaru
+        uses: actions/checkout@v4
+
+      - name: Jalankan Docker Compose
+        run: |
+          docker compose down
+          docker compose up -d --build
+          docker ps
