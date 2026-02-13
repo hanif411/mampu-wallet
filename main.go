@@ -14,10 +14,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("error load .env", err)
-	}
+	godotenv.Load()
 
 	db := database.InitDB()
 	db.AutoMigrate(&model.User{}, &model.Wallet{}, &model.Transaction{})
@@ -45,5 +42,5 @@ func main() {
 	}
 
 	log.Println("Server running on :5000")
-	r.Run(":5000")
+	r.Run("0.0.0.0:5000")
 }
