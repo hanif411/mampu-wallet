@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432" 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U posgtres"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -19,7 +19,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data 
   app-wallet:
-    image: hanifsholihin/wallet-api:latest
+    image: hanifsholihin/mampu-wallet:latest
     container_name: wallet_api_container
     ports:
       - "5000:5000" 
@@ -28,7 +28,7 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
-      - DB_PORT=${DB_HOST}
+      - DB_PORT=${DB_PORT}
       - DB_SSLMODE=disable
       - SECRET_KEY=${SECRET_KEY}
     depends_on:
