@@ -12,4 +12,4 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/.env* .
 
 EXPOSE 5000
-CMD [ "main" ]
+CMD [ "./main" ]
