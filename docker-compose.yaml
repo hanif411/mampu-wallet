@@ -28,6 +28,14 @@ services:
     depends_on:
       - wallet_db 
     restart: always
+    
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 8888:8080
 
 volumes:
   db_data:
