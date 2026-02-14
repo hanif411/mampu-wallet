@@ -1,9 +1,15 @@
-FROM golang:1.26-alpine
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
 COPY . .
 
-RUN go build -o app
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
-CMD ./app
+FROM alpine:latest
+WORKDIR /root/
+COPY --from=builder /app/main .
+COPY --from=builder /app/.env* .
+
+EXPOSE 5000
+CMD [ "main" ]

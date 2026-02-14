@@ -27,8 +27,8 @@ services:
       - SECRET_KEY=${SECRET_KEY}
     depends_on:
       - wallet_db 
-    restart: always
-    
+    restart: unless-stopped
+
   dozzle:
     container_name: dozzle
     image: amir20/dozzle:latest
