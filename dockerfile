@@ -1,9 +1,6 @@
 FROM golang:1.26-alpine AS builder
-
 WORKDIR /app
-
 COPY . .
-
 RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
 FROM alpine:latest
