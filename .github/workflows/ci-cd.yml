@@ -46,3 +46,8 @@ jobs:
           docker compose pull
           docker compose up -d --build
           docker image prune -f
+      - name: Debug Docker
+        run: |
+          docker info
+          docker ps -a
+          docker images
